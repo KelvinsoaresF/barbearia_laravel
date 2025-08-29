@@ -9,7 +9,12 @@ class Appointment extends Model
     protected $fillable = [
         'user_id',
         'service_id',
-        'availability_id'
+        'availability_id',
+        'status'
+    ];
+
+    protected $casts = [
+        'status' => 'string',
     ];
 
     public function user()

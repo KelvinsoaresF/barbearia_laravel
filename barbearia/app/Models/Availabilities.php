@@ -12,6 +12,12 @@ class Availabilities extends Model
         'is_booked'
     ];
 
+    protected $casts = [
+        'time' => 'datetime:H:i',
+        'date' => 'date',
+        'is_booked' => 'boolean',
+    ];
+
     public function appointments()
     {
         return $this->hasOne(Appointment::class);

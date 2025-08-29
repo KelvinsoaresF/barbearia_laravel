@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
-            $table->foreignId('service_id')->constrained('service')->onDelete('cascade');
+            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('service_id')->constrained('services')->onDelete('cascade');
             $table->foreignId('availability_id')->constrained('availabilities')->onDelete('cascade');
+            $table->enum('status', ['reservado', 'concluido', 'cancelado'])->default('reservado');
             $table->timestamps();
         });
     }
