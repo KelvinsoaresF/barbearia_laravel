@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('availabilities', function (Blueprint $table) {
             $table->id();
             $table->date('date');
-            $table->time('time');
+            $table->time('timeslot');
             $table->boolean('is_booked')->default(false);
             $table->timestamps();
         });

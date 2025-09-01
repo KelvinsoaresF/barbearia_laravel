@@ -13,7 +13,7 @@ class ServiceSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('service')->insert([
+        DB::table('services')->insert([
             [
                 'name' => 'Corte de Cabelo',
                 'description' => 'Corte de cabelo masculino, na tesoura ou máquina.',

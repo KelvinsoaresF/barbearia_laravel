@@ -5,10 +5,10 @@
     <!-- Imagem do serviço -->
     <img src="teste.jpeg" alt="Corte" class="w-full h-60 object-cover rounded">
 
-    <h1 class="text-2xl font-bold mt-4">Corte Masculino</h1>
-    <p class="text-gray-600 mt-2">Corte detalhado com lavagem e finalização.</p>
-    <p class="text-green-600 font-bold mt-2">R$16,00</p>
-    <p class="text-gray-600 mt-2">Duração: 1:30</p>
+    <h1 class="text-2xl font-bold mt-4">{{ $service->name }}</h1>
+    <p class="text-gray-600 mt-2">{{ $service->description }}</p>
+    <p class="text-green-600 font-bold mt-2">R${{ $service->price }}</p>
+    <p class="text-gray-600 mt-2">{{ $service->duration }} minutos</p>
 
     <form class="mt-6">
         <!-- Data -->
@@ -16,10 +16,9 @@
             Data:
             <select class="w-full border rounded px-2 py-1 mt-1">
                 <option value="">Selecione uma data</option>
-                <option value="2025-08-27">27/08/2025</option>
-                <option value="2025-08-28">28/08/2025</option>
-                <option value="2025-08-29">29/08/2025</option>
-                <option value="2025-08-30">30/08/2025</option>
+                @foreach ($availabilities as $date => $slots)
+
+                @endforeach
             </select>
         </label>
 

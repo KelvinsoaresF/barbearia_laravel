@@ -1,11 +1,14 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ServiceController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('home');
-})->name('home');
+// Route::get('/', function () {
+//     return view('home');
+// })->name('home');
+
+Route::get('/', [ServiceController::class, 'index'])->name('home');
 
 Route::get('/register', function () {
     return view('auth.register');
@@ -21,6 +24,4 @@ Route::get('/service/create', function () {
     return view('service.create-service');
 })->name('service_create_view');
 
-Route::get('/service/show', function () {
-    return view('service.show-service');
-})->name('service_show_view');
+Route::get('/service/{id}', [ServiceController::class, 'show_service'])->name('service_show_view');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Availabilities;
 use App\Models\Service;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -47,7 +48,19 @@ class ServiceController extends Controller
                 'duration.min' => 'A duração do serviço deve ser no mínimo :5 minuto.'
             ]
             );
+    }
+
+    public function show_service($id)
+    {
+        $service = Service::findOrFail($id);
+
+        $availabilities = Availabilities::where('is_booked', false)
+            ->orderBy('date')
+            ->orderBy('timeslot')
+            ->get()
+            ->groupBy('date');
 
 
+        return view('service.show-service', compact('service', 'availabilities'));
     }
 }
