@@ -76,7 +76,7 @@ class AuthController extends Controller
         }
 
         Auth::login($user);
-        return redirect('home')->with('success', 'Login realizado com sucesso');
+        return redirect('/')->with('success', 'Login realizado com sucesso');
     }
 
     public function logout()

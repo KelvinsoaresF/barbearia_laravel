@@ -7,7 +7,7 @@
         <div class="bg-white shadow-lg rounded-2xl p-8 w-full max-w-md">
             <h2 class="text-3xl font-bold text-center mb-6 text-green-600">Login</h2>
 
-            <form method="POST" action="#">
+            <form method="POST" action="{{ route('login_submit') }}">
                 @csrf
                 <div class="mb-4">
                     <label for="email" class="block text-gray-700">Email</label>

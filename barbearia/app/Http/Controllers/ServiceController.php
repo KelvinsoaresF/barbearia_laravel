@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Appointment;
 use App\Models\Availabilities;
 use App\Models\Service;
 use App\Models\User;
@@ -22,7 +23,7 @@ class ServiceController extends Controller
     public function create_service(Request $request)
     {
         if (Gate::denies('create-service')) {
-            return ;
+            return;
         }
 
         $user = Auth::user();
@@ -47,7 +48,14 @@ class ServiceController extends Controller
                 'duration.integer' => 'A duração do serviço deve ser um número inteiro.',
                 'duration.min' => 'A duração do serviço deve ser no mínimo :5 minuto.'
             ]
-            );
+        );
+
+        $service = new Service();
+        $service->name = $validateData['name'];
+        $service->description = $validateData['description'];
+        $service->price = $validateData['price'];
+        $service->duration = $validateData['duration'];
+        $service->save();
     }
 
     public function show_service($id)
@@ -58,9 +66,50 @@ class ServiceController extends Controller
             ->orderBy('date')
             ->orderBy('timeslot')
             ->get()
-            ->groupBy('date');
+            ->groupBy('date'); // Agrupa por dia
 
 
         return view('service.show-service', compact('service', 'availabilities'));
     }
+
+    // public function book_service(Request $request, $id)
+    // {
+    //     $user = Auth::user();
+
+    //     $service = Service::findOrFail($id);
+
+    //     $validateData = $request->validate(
+    //         [
+    //             'date' => 'required|date',
+    //             'timeslot' => 'required|string'
+    //         ]
+    //     );
+
+    //     if (!$user) {
+    //         return redirect()->route('login')->with('error', 'Você precisa estar logado para agendar um serviço.');
+    //     }
+
+    //     $availability = Availabilities::where('date', $validateData['date'])
+    //         ->where('timeslot', $validateData['timeslot'])
+    //         ->where('is_booked', false)
+    //         ->first();
+
+    //     if (!$availability) {
+    //         return back()->withErrors(['timeslot' => 'O horário selecionado não está disponível. Por favor, escolha outro horário.'])->withInput();
+    //     }
+
+    //     $availability->is_booked = true;
+    //     $availability->save();
+
+    //     $appointment = Appointment::create([
+    //         'user_id' => $user->id,
+    //         'service_id' => $service->id,
+    //         'availability_id' => $availability->id,
+    //         'status' => 'reservado'
+    //     ]);
+
+    //     return redirect()->route('home')->with('success', 'Serviço agendado com sucesso!');
+    // }
+
+
 }
