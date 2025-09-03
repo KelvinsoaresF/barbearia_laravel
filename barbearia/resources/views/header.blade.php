@@ -13,7 +13,7 @@
         <li><a href="#services" class="hover:text-gray-200">Serviços</a></li>
 
         @auth
-            <li><a href="#about F" class="hover:text-gray-200">Agendamentos</a></li>
+            <li><a href="{{ route('my_appointments') }}" class="hover:text-gray-200">Historico</a></li>
         @endauth
 
         <li><a href="#contact" class="hover:text-gray-200">Contato</a></li>

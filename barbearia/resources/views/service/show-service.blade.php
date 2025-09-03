@@ -14,9 +14,10 @@
         <p class="text-green-600 font-bold mt-2">R${{ $service->price }}</p>
         <p class="text-gray-600 mt-2">{{ $service->duration }} minutos</p>
 
-        <form class="mt-6" method="POST" action="{{ route('appointment_service', ['id' => $service->id]) }}">
+        <form method="POST" action="{{ route('criar') }}" class="mt-6">
             <!-- Data -->
             @csrf
+            <input type="text" name="service_id" value="{{ $service->id }}" hidden>
             <label class="block mt-4">
                 Data:
                 <select name="date" id="date" class="w-full border rounded px-2 py-1 mt-1">

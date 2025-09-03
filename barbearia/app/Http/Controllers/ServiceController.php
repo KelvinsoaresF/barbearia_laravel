@@ -6,6 +6,7 @@ use App\Models\Appointment;
 use App\Models\Availabilities;
 use App\Models\Service;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -66,50 +67,12 @@ class ServiceController extends Controller
             ->orderBy('date')
             ->orderBy('timeslot')
             ->get()
-            ->groupBy('date'); // Agrupa por dia
+            ->groupBy('date')
+            ->map(function ($slots) {
+                return $slots->pluck('timeslot')->map(fn($t) => Carbon::parse($t)->format('H:i'))->toArray();
+            });
 
 
         return view('service.show-service', compact('service', 'availabilities'));
     }
-
-    // public function book_service(Request $request, $id)
-    // {
-    //     $user = Auth::user();
-
-    //     $service = Service::findOrFail($id);
-
-    //     $validateData = $request->validate(
-    //         [
-    //             'date' => 'required|date',
-    //             'timeslot' => 'required|string'
-    //         ]
-    //     );
-
-    //     if (!$user) {
-    //         return redirect()->route('login')->with('error', 'Você precisa estar logado para agendar um serviço.');
-    //     }
-
-    //     $availability = Availabilities::where('date', $validateData['date'])
-    //         ->where('timeslot', $validateData['timeslot'])
-    //         ->where('is_booked', false)
-    //         ->first();
-
-    //     if (!$availability) {
-    //         return back()->withErrors(['timeslot' => 'O horário selecionado não está disponível. Por favor, escolha outro horário.'])->withInput();
-    //     }
-
-    //     $availability->is_booked = true;
-    //     $availability->save();
-
-    //     $appointment = Appointment::create([
-    //         'user_id' => $user->id,
-    //         'service_id' => $service->id,
-    //         'availability_id' => $availability->id,
-    //         'status' => 'reservado'
-    //     ]);
-
-    //     return redirect()->route('home')->with('success', 'Serviço agendado com sucesso!');
-    // }
-
-
 }

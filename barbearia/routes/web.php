@@ -31,4 +31,7 @@ Route::get('/service/create', function () {
 
 Route::get('/service/{id}', [ServiceController::class, 'show_service'])->name('service_show_view');
 
-Route::post('appointment/store/{id}', [AppointmentController::class, 'book_service'])->name('appointment_service');
+Route::post('/appointment/store', [AppointmentController::class, 'book_service'])->name('criar');
+
+
+Route::get('/my-appointments', [AppointmentController::class, 'my_appointments'])->name('my_appointments');

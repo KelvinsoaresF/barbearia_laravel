@@ -10,18 +10,19 @@ use Illuminate\Support\Facades\Auth;
 
 class AppointmentController extends Controller
 {
-    public function book_service(Request $request, $id)
+    public function book_service(Request $request)
     {
         $user = Auth::user();
 
-        $service = Service::findOrFail($id);
-
         $validateData = $request->validate(
             [
+                'service_id' => 'required|exists:services,id',
                 'date' => 'required|date',
                 'timeslot' => 'required|string'
             ]
         );
+
+        $service = Service::findOrFail($validateData['service_id']);
 
         if (!$user) {
             return redirect()->route('login')->with('error', 'Você precisa estar logado para agendar um serviço.');
@@ -49,6 +50,8 @@ class AppointmentController extends Controller
         return redirect()->route('home')->with('success', 'Serviço agendado com sucesso!');
     }
 
+
+
     public function my_appointments()
     {
         $user = Auth::user();
@@ -58,7 +61,7 @@ class AppointmentController extends Controller
         }
 
         $appointments = Appointment::where('user_id', $user->id)
-            ->with(['service', 'availabity'])
+            ->with(['service', 'availability'])
             ->orderBy('created_at', 'desc')
             ->get();
 
